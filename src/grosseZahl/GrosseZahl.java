@@ -27,10 +27,18 @@ public class GrosseZahl {
             }
             else
             {
-                this.zahl[i] = ziffer;
+                this.zahl[string.length() - 1 - i] = ziffer;
             }
 
         }
+
+        this.cutLeadingZeros();
+    }
+
+    GrosseZahl(int[] zahl)
+    {
+        this.zahl = zahl;
+        this.cutLeadingZeros();
     }
 
     GrosseZahl(int zahl)
@@ -48,10 +56,11 @@ public class GrosseZahl {
 
         for(int i = 0; i < stellen; i++)
         {
-            this.zahl[stellen - 1 - i] = zahl % 10;
+            this.zahl[i] = zahl % 10;
             zahl /= 10;
         }
 
+        this.cutLeadingZeros();
     }
 
     public boolean less(GrosseZahl b)
@@ -76,20 +85,74 @@ public class GrosseZahl {
 
     public GrosseZahl add(GrosseZahl b)
     {
+        int maxStellen = this.getLaenge();
+        int minStellen = b.getLaenge();
+        GrosseZahl groessereZahl = this;
+
+        if(b.getLaenge() > this.getLaenge())
+        {
+            minStellen = maxStellen;
+            maxStellen = b.getLaenge();
+            groessereZahl = b;
+        }
+
+        maxStellen++;
+
+        int[] neueZahl = new int[maxStellen];
+        int uebertrag = 0;
+
+        for(int i = 0; i < minStellen; i++)
+        {
+            int ergebnis = this.getZiffer(i) + b.getZiffer(i) + uebertrag;
+            uebertrag = ergebnis / 10;
+            neueZahl[i] = ergebnis % 10;
+        }
+
+        for(int i = minStellen; i < maxStellen - 1; i++)
+        {
+            int ergebnis = groessereZahl.getZiffer(i) + uebertrag;
+            uebertrag = ergebnis / 10;
+            neueZahl[i] = ergebnis % 10;
+        }
+
+        neueZahl[maxStellen - 1] = uebertrag;
 
 
-        return new GrosseZahl(1);
+        return new GrosseZahl(neueZahl);
     }
 
     public String toString()
     {
         String string = "";
 
-        for(int i = 0; i < this.zahl.length; i++)
+        for(int i = this.zahl.length - 1; i >= 0; i--)
         {
             string += this.zahl[i];
         }
 
         return string;
+    }
+
+    private void cutLeadingZeros()
+    {
+        int stellen = this.zahl.length;
+
+        for(int i = this.zahl.length - 1; i >= 0; i--)
+        {
+            if(this.zahl[i] != 0)
+                break;
+
+            stellen--;
+        }
+
+        if(stellen != this.zahl.length) {
+            int[] zahlen = new int[stellen];
+
+            for (int i = 0; i < stellen; i++) {
+                zahlen[i] = this.zahl[i];
+            }
+
+            this.zahl = zahlen;
+        }
     }
 }
