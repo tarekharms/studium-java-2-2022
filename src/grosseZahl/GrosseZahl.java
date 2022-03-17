@@ -121,6 +121,22 @@ public class GrosseZahl {
         return new GrosseZahl(neueZahl);
     }
 
+    public GrosseZahl mult(GrosseZahl b)
+    {
+        GrosseZahl ergebnis = new GrosseZahl(0);
+        GrosseZahl zaehler = new GrosseZahl(0);
+        GrosseZahl eins = new GrosseZahl(1);
+
+        while(zaehler.less(this))
+        {
+            ergebnis = ergebnis.add(b);
+            zaehler = zaehler.add(eins);
+            //System.out.println("Zaehler: " + zaehler + "; Ergebnis: " +  ergebnis.toString());
+        }
+
+        return ergebnis;
+    }
+
     public String toString()
     {
         String string = "";

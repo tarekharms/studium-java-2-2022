@@ -2,20 +2,20 @@ package grosseZahl;
 
 public class Main {
     public static void main(String[] args) {
-        GrosseZahl zahlA = new GrosseZahl("66");
+        GrosseZahl zahlA = new GrosseZahl("111");
         System.out.println("A: " + zahlA.toString());
 
-        GrosseZahl zahlB = new GrosseZahl(955);
+        GrosseZahl zahlB = new GrosseZahl(102);
         System.out.println("B: " + zahlB.toString());
 
-        if(zahlA.less(zahlB))
-            System.out.println("A Kleiner als B");
+        if(zahlB.less(zahlA))
+            System.out.println("B Kleiner als A");
         else
-            System.out.println("A ist nicht kleiner als B");
+            System.out.println("B ist nicht kleiner als A");
 
-        GrosseZahl zahlC = zahlA.add(zahlB);
+        GrosseZahl zahlC = zahlA.mult(zahlB);
 
-        System.out.println("A + B = " + zahlC.toString());
+        System.out.println("A * B = " + zahlC.toString());
 
     }
 }
