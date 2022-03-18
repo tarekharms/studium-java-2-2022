@@ -13,7 +13,7 @@ public class GrosseZahl {
         return this.zahl.length;
     }
 
-    GrosseZahl(String string)
+    public GrosseZahl(String string)
     {
         this.zahl = new int[string.length()];
 
@@ -35,22 +35,23 @@ public class GrosseZahl {
         this.cutLeadingZeros();
     }
 
-    GrosseZahl(int[] zahl)
+    public GrosseZahl(int[] zahl)
     {
         this.zahl = zahl;
         this.cutLeadingZeros();
     }
 
-    GrosseZahl(int zahl)
+    public GrosseZahl(int zahl)
     {
         int stellen = 0;
         int dezimal = 1;
 
-        while(zahl / dezimal > 0)
+        do
         {
             stellen++;
             dezimal *= 10;
         }
+        while(zahl / dezimal > 0);
 
         this.zahl = new int[stellen];
 
@@ -71,7 +72,7 @@ public class GrosseZahl {
             return false;
         else
         {
-            for(int i = 0; i < this.getLaenge(); i++)
+            for(int i = this.getLaenge() - 1; i >= 0; i--)
             {
                 if(b.getZiffer(i) < this.getZiffer(i))
                     return false;
@@ -124,17 +125,49 @@ public class GrosseZahl {
     public GrosseZahl mult(GrosseZahl b)
     {
         GrosseZahl ergebnis = new GrosseZahl(0);
-        GrosseZahl zaehler = new GrosseZahl(0);
-        GrosseZahl eins = new GrosseZahl(1);
 
-        while(zaehler.less(this))
+        for(int i = 0; i < b.getLaenge(); i++)
         {
-            ergebnis = ergebnis.add(b);
-            zaehler = zaehler.add(eins);
-            //System.out.println("Zaehler: " + zaehler + "; Ergebnis: " +  ergebnis.toString());
+            ergebnis = ergebnis.add(
+                    this.mult_single(b.getZiffer(i)).shift(i)
+            );
         }
 
         return ergebnis;
+    }
+
+    private GrosseZahl mult_single(int faktor)
+    {
+        GrosseZahl ergebnis = new GrosseZahl(0);
+
+        for(int i = 0; i < faktor; i++)
+        {
+            ergebnis = ergebnis.add(this);
+        }
+
+        return ergebnis;
+    }
+
+    private GrosseZahl shift(int positions)
+    {
+        int[] zahlx10 = new int[this.zahl.length + positions];
+
+        for(int i = 0; i < positions; i++)
+        {
+            zahlx10[i] = 0;
+        }
+
+        for(int i = 0; i < this.zahl.length; i++)
+        {
+            zahlx10[i+positions] = this.zahl[i];
+        }
+
+        return  new GrosseZahl(zahlx10);
+    }
+
+    public GrosseZahl ggT(GrosseZahl b)
+    {
+        return new GrosseZahl(0);
     }
 
     public String toString()
@@ -153,7 +186,7 @@ public class GrosseZahl {
     {
         int stellen = this.zahl.length;
 
-        for(int i = this.zahl.length - 1; i >= 0; i--)
+        for(int i = this.zahl.length - 1; i > 0; i--)
         {
             if(this.zahl[i] != 0)
                 break;
