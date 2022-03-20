@@ -2,22 +2,18 @@ package grosseZahl;
 
 public class Main {
     public static void main(String[] args) {
-        GrosseZahl zahlA = new GrosseZahl("17");
-        System.out.println("A: " + zahlA.toString());
+        GrosseZahl zahlA = new GrosseZahl(8345);
+        System.out.println("A: " + zahlA);
 
-        GrosseZahl zahlB = new GrosseZahl(100);
-        System.out.println("B: " + zahlB.toString());
+        GrosseZahl zahlB = new GrosseZahl(15);
+        System.out.println("B: " + zahlB);
 
-        GrosseZahl zahlC = zahlA.mult(zahlB);
+        GrosseZahl zahlADurchB = zahlA.dividieren(zahlB);
+        GrosseZahl zahlAModuloB = zahlA.modulo(zahlB);
+        GrosseZahl ggT = zahlA.ggT(zahlB);
 
-        System.out.println("A * B = " + zahlC.toString());
-
-        /*
-        if(zahlB.less(zahlA))
-            System.out.println("B(" + zahlB + ") ist Kleiner als A(" + zahlA + ")");
-        else
-            System.out.println("B(" + zahlB + ") ist nicht Kleiner als A(" + zahlA + ")");
-        */
-
+        System.out.println(zahlA + " / " + zahlB + " = " + zahlADurchB);
+        System.out.println(zahlA + " % " + zahlB + " = " + zahlAModuloB);
+        System.out.println("ggT " + zahlA + " und " + zahlB + " = " + ggT);
     }
 }
