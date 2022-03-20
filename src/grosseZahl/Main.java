@@ -2,31 +2,16 @@ package grosseZahl;
 
 public class Main {
     public static void main(String[] args) {
-        GrosseZahl zahlA = new GrosseZahl(15);
-        System.out.println("A: " + zahlA.toString());
+        GrosseZahl zahlA = new GrosseZahl(8345);
+        System.out.println("A: " + zahlA);
 
-        GrosseZahl zahlB = new GrosseZahl(42);
-        System.out.println("43 % 15 = " + zahlB.moduloEinfach(zahlA));
+        GrosseZahl zahlB = new GrosseZahl(15);
+        System.out.println("B: " + zahlB);
 
-        GrosseZahl zahlRek = new GrosseZahl(
-                zahlA.rekursivDividieren(new int[] {3, 2, 1}, new GrosseZahl(0), 0, zahlA)
-        );
+        GrosseZahl zahlADurchB = zahlA.dividieren(zahlB);
+        GrosseZahl zahlAModuloB = zahlA.modulo(zahlB);
 
-        System.out.println(zahlRek);
-
-        //GrosseZahl zahlB = new GrosseZahl(1);
-        //System.out.println("B: " + zahlB.toString());
-
-        GrosseZahl zahlC = zahlA.sliceLeft(5);
-
-        System.out.println("Erste 2 Ziffern Zahl A: " + zahlC.toString());
-
-    /*
-        if(zahlB.equal(zahlA))
-            System.out.println("B(" + zahlB + ") ist gleich A(" + zahlA + ")");
-        else
-            System.out.println("B(" + zahlB + ") ist nicht gleich A(" + zahlA + ")");
-
-        //*/
+        System.out.println(zahlA + " / " + zahlB + " = " + zahlADurchB);
+        System.out.println(zahlA + " % " + zahlB + " = " + zahlAModuloB);
     }
 }

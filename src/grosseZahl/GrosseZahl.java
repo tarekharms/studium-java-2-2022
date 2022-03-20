@@ -129,34 +129,30 @@ public class GrosseZahl {
 
     public GrosseZahl dividieren(GrosseZahl divisor)
     {
-        if(this.less(divisor)) return new GrosseZahl(0);
-
-        GrosseZahl ergebnis = new GrosseZahl(0);
-
-        GrosseZahl zwischenErgebnis = new GrosseZahl(0);
-
-        for(int i = 0; i < this.getLaenge(); i++)
-        {
-        }
-
-
-        return ergebnis;
+        return new GrosseZahl(
+                rekursivDividieren(this.zahl, new GrosseZahl(0), 0, divisor)
+        );
     }
 
-    public int[] rekursivDividieren(int[] ziffern, GrosseZahl zwischenergebnis, int stelle, GrosseZahl divisor)
+    public GrosseZahl modulo(GrosseZahl divisor)
+    {
+        GrosseZahl quotient = this.dividieren(divisor);
+
+        return this.subtract(divisor.mult(quotient));
+    }
+
+    public static int[] rekursivDividieren(int[] ziffern, GrosseZahl zwischenergebnis, int stelle, GrosseZahl divisor)
     {
         if(ziffern.length == 0) return new int[stelle];
 
         zwischenergebnis = zwischenergebnis.shiftLeft(1);
         zwischenergebnis = zwischenergebnis.add(new GrosseZahl(ziffern[ziffern.length-1]));
 
-        System.out.println("Zwischenergebnis = " + zwischenergebnis);
-
         int quotient = zwischenergebnis.dividierenEinfach(divisor);
 
         if(quotient > 0)
         {
-            zwischenergebnis = zwischenergebnis.subtract(zwischenergebnis.mult_single(quotient));
+            zwischenergebnis = zwischenergebnis.subtract(divisor.mult_single(quotient));
         }
 
         int[] neueZiffern = new int[ziffern.length - 1];
@@ -167,7 +163,7 @@ public class GrosseZahl {
         }
 
         int[] array = rekursivDividieren(neueZiffern, zwischenergebnis, stelle+1, divisor);
-        array[stelle] = quotient;
+        array[array.length - stelle - 1] = quotient;
 
         return array;
     }
@@ -177,13 +173,12 @@ public class GrosseZahl {
         int quotient = 0;
         GrosseZahl zwischen = new GrosseZahl(0);
 
-        do
+        while(!this.less(zwischen.add(divisor)))
         {
             zwischen = zwischen.add(divisor);
             quotient++;
 
         }
-        while(this.less(zwischen.add(divisor)));
 
         return quotient;
     }
