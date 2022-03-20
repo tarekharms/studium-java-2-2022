@@ -294,7 +294,12 @@ public class GrosseZahl {
 
     public GrosseZahl ggT(GrosseZahl b)
     {
-        return new GrosseZahl(0);
+        if(b.equal(new GrosseZahl(0)))
+        {
+            return this;
+        }
+
+        return b.ggT(this.modulo(b));
     }
 
     public String toString()

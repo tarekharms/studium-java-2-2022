@@ -10,8 +10,10 @@ public class Main {
 
         GrosseZahl zahlADurchB = zahlA.dividieren(zahlB);
         GrosseZahl zahlAModuloB = zahlA.modulo(zahlB);
+        GrosseZahl ggT = zahlA.ggT(zahlB);
 
         System.out.println(zahlA + " / " + zahlB + " = " + zahlADurchB);
         System.out.println(zahlA + " % " + zahlB + " = " + zahlAModuloB);
+        System.out.println("ggT " + zahlA + " und " + zahlB + " = " + ggT);
     }
 }
