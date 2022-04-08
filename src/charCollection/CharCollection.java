@@ -1,19 +1,16 @@
 package charCollection;
 
-import grosseZahl.GrosseZahl;
-
-import java.util.ArrayList;
+import java.util.*;
 
 public class CharCollection {
-    ArrayList<Character> characters;
-
+    List<Character> characters;
 
     public CharCollection(char... characters)
     {
         this.characters = new ArrayList<>(characters.length);
 
-        for(int i = 0; i < characters.length; i++) {
-            this.characters.add(characters[i]);
+        for(char character : characters) {
+            this.characters.add(character);
         }
     }
 
@@ -27,7 +24,7 @@ public class CharCollection {
         }
     }
 
-    private  CharCollection(ArrayList<Character> characters)
+    private CharCollection(List<Character> characters)
     {
         this.characters = characters;
     }
@@ -55,17 +52,13 @@ public class CharCollection {
         return this.getDifferentCharacters().size();
     }
 
-    private ArrayList<Character> getDifferentCharacters()
+    private Set<Character> getDifferentCharacters()
     {
-        ArrayList<Character> vorhanden = new ArrayList<>();
+        Set<Character> vorhanden = new HashSet<>();
 
         for(int i = 0; i < this.size(); i++)
         {
-            char character = this.characters.get(i);
-            if(!vorhanden.contains(character))
-            {
-                vorhanden.add(character);
-            }
+            vorhanden.add(this.characters.get(i));
         }
 
         return vorhanden;
@@ -73,21 +66,21 @@ public class CharCollection {
 
     public char top()
     {
-        ArrayList<Character> verschiedene = this.getDifferentCharacters();
+        Set<Character> verschiedene = this.getDifferentCharacters();
 
-        int indexTop = 0;
+        char top = 0;
         int countTop = 0;
 
-        for(int i = 0; i < verschiedene.size(); i++)
+        for(Character candidate : verschiedene)
         {
-            if(this.count(verschiedene.get(i)) > countTop)
+            if(this.count(candidate) > countTop)
             {
-                indexTop = i;
-                countTop = this.count(verschiedene.get(i));
+                top = candidate;
+                countTop = this.count(candidate);
             }
         }
 
-        return verschiedene.get(indexTop);
+        return top;
     }
 
     public String toString()
@@ -124,7 +117,6 @@ public class CharCollection {
             }
         }
 
-
         return new CharCollection(thisMehrAlsM);
     }
 
@@ -136,12 +128,12 @@ public class CharCollection {
 
         CharCollection that = (CharCollection) object;
 
-        ArrayList<Character> verschiedeneThis = this.getDifferentCharacters();
+        Set<Character> verschiedeneThis = this.getDifferentCharacters();
 
-        for(int i = 0; i < verschiedeneThis.size(); i++)
+        for(Character character : verschiedeneThis)
         {
             if(
-                    this.count(verschiedeneThis.get(i)) != that.count(verschiedeneThis.get(i))
+                    this.count(character) != that.count(character)
             )
             {
                 return false;
@@ -151,6 +143,31 @@ public class CharCollection {
         return true;
     }
 
+    public CharCollection except(CharCollection cc)
+    {
+        List<Character> ccList = new ArrayList<>(cc.characters);
+        List<Character> newCharList = new ArrayList<>();
 
+        for(Character character : this.characters)
+        {
+            if(ccList.contains(character))
+            {
+                ccList.remove(character);
+            }
+            else
+            {
+                newCharList.add(character);
+            }
+        }
+
+        return new CharCollection(newCharList);
+    }
+
+    public boolean isSubset(CharCollection cc)
+    {
+        CharCollection vergleich = cc.except(this);
+
+        return vergleich.size() == 0;
+    }
 
 }
