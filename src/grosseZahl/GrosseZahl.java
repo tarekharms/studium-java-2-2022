@@ -219,34 +219,17 @@ public class GrosseZahl {
 
         for(int i = 0; i < b.getLaenge(); i++)
         {
-            int ergebnis = this.getZiffer(i) - b.getZiffer(i) - uebertrag;
+            int ergebnis = 10 + this.getZiffer(i) - b.getZiffer(i) - uebertrag;
 
-            if(ergebnis < 0)
-            {
-                uebertrag = 1;
-                neueZahl[i] = 10 + ergebnis;
-            }
-            else
-            {
-                uebertrag = 0;
-                neueZahl[i] = ergebnis;
-            }
+            uebertrag = 1 - ergebnis / 10;
+            neueZahl[i] = ergebnis % 10;
         }
 
         for(int i = b.getLaenge(); i < this.getLaenge(); i++)
         {
-            int ergebnis = this.getZiffer(i) - uebertrag;
-
-            if(ergebnis < 0)
-            {
-                uebertrag = 1;
-                neueZahl[i] = 10 + ergebnis;
-            }
-            else
-            {
-                uebertrag = 0;
-                neueZahl[i] = ergebnis;
-            }
+            int ergebnis = 10 + this.getZiffer(i) - uebertrag;
+            uebertrag = 1 - ergebnis / 10;
+            neueZahl[i] = ergebnis % 10;
         }
 
         return new GrosseZahl(neueZahl);
