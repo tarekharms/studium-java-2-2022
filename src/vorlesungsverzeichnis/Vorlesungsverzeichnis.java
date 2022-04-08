@@ -156,6 +156,8 @@ public class Vorlesungsverzeichnis {
         List<Vorlesung> vorlesungen = new ArrayList<>(this.vorlesungen);
         List<String> titelliste = new ArrayList<>(vorlesungen.size());
 
+        Collections.sort(vorlesungen, Collections.reverseOrder(new VorlesungTeilnehmerComparator()));
+
         for(Vorlesung vorlesung : vorlesungen)
         {
             titelliste.add(vorlesung.getTitel());
