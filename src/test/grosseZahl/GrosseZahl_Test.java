@@ -1,4 +1,4 @@
-package test;
+package test.grosseZahl;
 
 import static org.junit.Assert.*;
 import grosseZahl.GrosseZahl;

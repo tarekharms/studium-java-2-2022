@@ -3,12 +3,12 @@ package grosseZahl;
 public class GrosseZahl {
     private int[] zahl;
 
-    public int getZiffer(int i)
+    private int getZiffer(int i)
     {
         return this.zahl[i];
     }
 
-    public int getLaenge()
+    private int getLaenge()
     {
         return this.zahl.length;
     }
@@ -35,7 +35,7 @@ public class GrosseZahl {
         this.cutLeadingZeros();
     }
 
-    public GrosseZahl(int[] zahl)
+    private GrosseZahl(int[] zahl)
     {
         this.zahl = zahl;
         this.cutLeadingZeros();
@@ -84,7 +84,7 @@ public class GrosseZahl {
         }
     }
 
-    public boolean equal(GrosseZahl b)
+    private boolean equal(GrosseZahl b)
     {
         return (!this.less(b) && !b.less(this));
     }
@@ -127,21 +127,21 @@ public class GrosseZahl {
         return new GrosseZahl(neueZahl);
     }
 
-    public GrosseZahl dividieren(GrosseZahl divisor)
+    private GrosseZahl dividieren(GrosseZahl divisor)
     {
         return new GrosseZahl(
                 rekursivDividieren(this.zahl, new GrosseZahl(0), 0, divisor)
         );
     }
 
-    public GrosseZahl modulo(GrosseZahl divisor)
+    private GrosseZahl modulo(GrosseZahl divisor)
     {
         GrosseZahl quotient = this.dividieren(divisor);
 
         return this.subtract(divisor.mult(quotient));
     }
 
-    public static int[] rekursivDividieren(int[] ziffern, GrosseZahl zwischenergebnis, int stelle, GrosseZahl divisor)
+    private static int[] rekursivDividieren(int[] ziffern, GrosseZahl zwischenergebnis, int stelle, GrosseZahl divisor)
     {
         if(ziffern.length == 0) return new int[stelle];
 
@@ -168,7 +168,7 @@ public class GrosseZahl {
         return array;
     }
 
-    public int dividierenEinfach(GrosseZahl divisor)
+    private int dividierenEinfach(GrosseZahl divisor)
     {
         int quotient = 0;
         GrosseZahl zwischen = new GrosseZahl(0);
@@ -181,33 +181,6 @@ public class GrosseZahl {
         }
 
         return quotient;
-    }
-
-    public GrosseZahl moduloEinfach(GrosseZahl divisor)
-    {
-        GrosseZahl zwischen = new GrosseZahl(0);
-
-        do
-        {
-            zwischen = zwischen.add(divisor);
-        }
-        while(zwischen.add(divisor).less(this));
-
-        return this.subtract(zwischen);
-    }
-
-    public GrosseZahl sliceLeft(int laenge)
-    {
-        if(laenge > this.getLaenge()) laenge = this.getLaenge();
-
-        int[] ziffern = new int[laenge];
-
-        for(int i = 0; i < laenge; i++)
-        {
-            ziffern[i] = this.zahl[this.zahl.length - laenge + i];
-        }
-
-        return new GrosseZahl(ziffern);
     }
 
     public GrosseZahl subtract(GrosseZahl b)
