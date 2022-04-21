@@ -31,6 +31,14 @@ public class Vorlesungsverzeichnis {
                 throw new TextFileFormatException("Anzahl Teilnehmer keine Ganzzahl in Zeile: " + zeile);
             }
 
+            if(
+                    splitted[0].length() == 0 ||
+                    splitted[1].length() == 0 ||
+                    splitted[2].length() == 0
+            ){
+                throw new TextFileFormatException("Leeres Feld in Zeile: " + zeile);
+            }
+
             this.vorlesungen.add(new Vorlesung(
                     splitted[0],
                     splitted[1],
@@ -46,12 +54,14 @@ public class Vorlesungsverzeichnis {
 
     public List<String> titles()
     {
-        List<String> titles = new ArrayList<>();
+        Set<String> titleSet = new HashSet<>();
 
         for(Vorlesung vorlesung : this.vorlesungen)
         {
-            titles.add(vorlesung.getTitel());
+            titleSet.add(vorlesung.getTitel());
         }
+
+        List<String> titles = new ArrayList<>(titleSet);
 
         Collections.sort(titles);
 
@@ -136,10 +146,7 @@ public class Vorlesungsverzeichnis {
         {
             titelDozenten.put(titel, new ArrayList<>());
         }
-
-        System.out.println(titels.size());
-        System.out.println(titelDozenten.size());
-
+        
         for(Vorlesung vorlesung : this.vorlesungen)
         {
             if(titels.contains(vorlesung.getTitel()))
