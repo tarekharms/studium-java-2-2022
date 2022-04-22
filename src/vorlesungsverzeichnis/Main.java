@@ -5,12 +5,20 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws Exception
     {
-        Vorlesungsverzeichnis verzeichnis = new Vorlesungsverzeichnis("./src/vorlesungsverzeichnis/vorlesungen.txt");
+        try
+        {
+            Vorlesungsverzeichnis verzeichnis = new Vorlesungsverzeichnis("./src/vorlesungsverzeichnis/vorlesungen.txt");
+            printMap(verzeichnis.multipleTitles());
+            //printList(verzeichnis.descendingTitles());
+        }
+        catch (TextFileFormatException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
 
         //printMap(verzeichnis.groupToTitles());
         //printMap(verzeichnis.multipleTitles());
 
-        printList(verzeichnis.descendingTitles());
     }
 
     private static void printMap(Map<String, List<String>> map)
