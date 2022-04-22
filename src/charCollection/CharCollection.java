@@ -130,6 +130,9 @@ public class CharCollection {
 
         Set<Character> verschiedeneThis = this.getDifferentCharacters();
 
+        //Fix: Vergleichsobjekt "that" hat mehr verschiedene Buchstaben als this
+        if(this.different() != that.different()) return false;
+
         for(Character character : verschiedeneThis)
         {
             if(
