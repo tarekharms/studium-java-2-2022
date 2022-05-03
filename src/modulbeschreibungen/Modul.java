@@ -49,6 +49,11 @@ public class Modul {
         return sws;
     }
 
+    public List<Veranstaltung> getVeranstaltungen()
+    {
+        return this.veranstaltungen;
+    }
+
     public Modul(List<String> dateiInhalt)
     {
         this.veranstaltungen = new ArrayList<>(dateiInhalt.size() - 1);
@@ -97,5 +102,42 @@ public class Modul {
         this.ects = Double.parseDouble(daten[5].replace(',', '.'));
         this.pruefungsform = daten[6];
         this.verantwortlicher = daten[7];
+    }
+
+    public String getJSON()
+    {
+        return this.getJSON("");
+    }
+
+    public String getJSON(String depth)
+    {
+        String json = "{\n";
+
+        json += depth + "\t\"bezeichnung\": \"" + this.bezeichnung + "\",\n";
+        json += depth + "\t\"kuerzel\": \"" + this.kuerzel + "\",\n";
+        json += depth + "\t\"studiengang\": \"" + this.studiengang + "\",\n";
+        json += depth + "\t\"semester\": \"" + this.semester + "\",\n";
+        json += depth + "\t\"art\": \"" + this.art + "\",\n";
+        json += depth + "\t\"ects\": " + this.ects + ",\n";
+        json += depth + "\t\"pruefungsform\": \"" + this.pruefungsform + "\",\n";
+        json += depth + "\t\"verantwortlicher\": \"" + this.verantwortlicher + "\",\n";
+
+        json += depth + "\t\"verantstaltungen\": [";
+
+        if(this.veranstaltungen.size() >= 0)
+        {
+            json += this.veranstaltungen.get(0).getJSON(depth + "\t");
+            json += ", ";
+
+            for(int i = 1; i < this.veranstaltungen.size(); i++)
+            {
+                json += this.veranstaltungen.get(i).getJSON(depth + "\t");
+            }
+        }
+
+        json += "] \n";
+        json += depth + "}";
+
+        return json;
     }
 }

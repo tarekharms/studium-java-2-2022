@@ -202,19 +202,74 @@ public class Modulbeschreibungen {
             }
         }
 
-
         return swsMap;
+    }
+
+    private int getSwsGesamt(String studiengang)
+    {
+        int swsGesamt = 0;
+
+        Map<Integer, Integer> swsMap = this.getSWS(studiengang);
+
+        for(Integer key : swsMap.keySet())
+        {
+            swsGesamt += swsMap.get(key);
+        }
+
+        return swsGesamt;
+    }
+
+    private Set<String> getStudiengaenge()
+    {
+        Set<String> studienGaenge = new HashSet<>();
+
+        for(Modul modul : this.module)
+        {
+            studienGaenge.add(modul.getStudiengang());
+        }
+
+        return studienGaenge;
     }
 
     public List<String> getSortierteStudiengaenge()
     {
         List<String> list = new ArrayList<>();
+        List<Studiengang> studiengaenge = new ArrayList<>();
+
+        for(String studiengang : this.getStudiengaenge())
+        {
+            studiengaenge.add(new Studiengang(studiengang, this.getSwsGesamt(studiengang)));
+        }
+
+        Collections.sort(studiengaenge, new StudiengangSwsComparator());
+
+        for(Studiengang studiengang : studiengaenge)
+        {
+            list.add(studiengang.getBezeichnung());
+        }
+
         return list;
     }
 
     public String getJSON(String studiengang)
     {
-        return "";
+        List<Modul> moduleStudiengang = this.getModuleByStudiengang(studiengang);
+        String json = "[";
+
+        if(moduleStudiengang.size() >= 0)
+        {
+            json += moduleStudiengang.get(0).getJSON();
+
+            for(int i = 1; i < moduleStudiengang.size(); i++)
+            {
+                json += ", ";
+                json += moduleStudiengang.get(i).getJSON();
+            }
+        }
+
+        json += "]";
+
+        return json;
     }
 
     public List<Modul> getModuleByStudiengang(String studiengang)
