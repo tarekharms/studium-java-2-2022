@@ -5,6 +5,11 @@ public class Veranstaltung {
     private String dozenten;
     private int sws;
 
+    public int getSws()
+    {
+        return this.sws;
+    }
+
     public Veranstaltung(String dateiString)
     {
         String[] daten = dateiString.split("\\|");

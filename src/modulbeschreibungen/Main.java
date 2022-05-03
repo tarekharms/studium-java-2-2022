@@ -8,24 +8,12 @@ public class Main {
 
     public static void main(String[] args)
     {
-        Modulbeschreibungen modulebeschreibungen = new Modulbeschreibungen("./src/modulbeschreibungen/module.txt");
+        //Modulbeschreibungen modulebeschreibungen = new Modulbeschreibungen("./src/modulbeschreibungen/module.txt");
+        Modulbeschreibungen modulebeschreibungen = new Modulbeschreibungen("./mb-junit.txt");
 
-        Set<String> zertifikate = modulebeschreibungen.getZertifikate("BI");
-
-        Set<String> verzahnteModule = modulebeschreibungen.getVerzahnteModule();
-
-        System.out.println("Verzahnte Module: " + verzahnteModule.size());
-        for(String string : verzahnteModule)
-        {
-            System.out.println(string);
-        }
-
-        Map<Integer, Integer> ectsPunkte = modulebeschreibungen.getECTS("BI");
-
-        printMap(ectsPunkte);
-
-        System.out.println(modulebeschreibungen.getAnzahlModule("BI", true));
-        System.out.println(modulebeschreibungen.getAnzahlVeranstaltungen("BI", true));
+        Map<Integer, Integer> sws = modulebeschreibungen.getECTS("BMT");
+        System.out.println(sws.size());
+        printMap(sws);
     }
 
     private static void printMap(Map<Integer, Integer> map)

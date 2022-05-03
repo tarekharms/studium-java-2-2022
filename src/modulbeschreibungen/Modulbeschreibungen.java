@@ -46,22 +46,12 @@ public class Modulbeschreibungen {
             if(modul.getArt().contains("Zertifikat"))
             {
                 String artString = modul.getArt();
-                artString = artString.substring(17, artString.length());
+                artString = artString.split("Wahlpflichtmodul Zertifikat ")[1];
                 String[] zertifikateStrings = artString.split("und Zertifikat ");
 
-                if(zertifikateStrings.length > 0)
+                for(String zertifikat : zertifikateStrings)
                 {
-                    zertifikate.add(zertifikateStrings[0]);
-
-                    for(int i = 1; i < zertifikateStrings.length; i++)
-                    {
-                        zertifikate.add("Zertifikat " + zertifikateStrings[i]);
-                    }
-
-                }
-                else
-                {
-                    zertifikate.add(artString);
+                    zertifikate.add(zertifikat.trim());
                 }
 
             }
@@ -127,7 +117,16 @@ public class Modulbeschreibungen {
     public int getAnzahlVeranstaltungen(String studiengang, Boolean pflicht)
     {
         List<Modul> studiengangModule = this.getModuleByStudiengang(studiengang);
-        List<Modul> gefilterteModule = filterPflichtModule(studiengangModule, pflicht);
+        List<Modul> gefilterteModule;
+
+        if(pflicht == null)
+        {
+            gefilterteModule = studiengangModule;
+        }
+        else
+        {
+            gefilterteModule = filterPflichtModule(studiengangModule, pflicht);
+        }
 
         int anzahlVeranstaltungen = 0;
 
@@ -148,6 +147,7 @@ public class Modulbeschreibungen {
 
         for(Modul modul : moduleStudiengang)
         {
+            System.out.println(modul.getBezeichnung());
             int semester = Integer.parseInt(modul.getSemester());
             double ects = modul.getECTS();
 
@@ -167,7 +167,14 @@ public class Modulbeschreibungen {
 
             if(punkte > 0)
             {
-                ectsPunkteGerundet.put(key, (int)punkte);
+                int rundung = 0;
+
+                if((int)(punkte * 10) % 10 >= 5)
+                {
+                    rundung = 1;
+                }
+
+                ectsPunkteGerundet.put(key, (int)punkte + rundung);
             }
         }
 
@@ -176,7 +183,26 @@ public class Modulbeschreibungen {
 
     public Map<Integer, Integer> getSWS(String studiengang)
     {
+        List<Modul> moduleStudiengang = filterPflichtModule(this.getModuleByStudiengang(studiengang), true);
         Map<Integer, Integer> swsMap = new HashMap<>();
+
+        for(Modul modul : moduleStudiengang)
+        {
+            System.out.println(modul.getBezeichnung());
+            int semester = Integer.parseInt(modul.getSemester());
+            int sws = modul.getSws();
+
+            if(swsMap.containsKey(semester))
+            {
+                swsMap.put(semester, swsMap.get(semester) + sws);
+            }
+            else
+            {
+                swsMap.put(semester, sws);
+            }
+        }
+
+
         return swsMap;
     }
 

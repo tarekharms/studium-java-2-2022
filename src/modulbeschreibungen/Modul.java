@@ -37,6 +37,18 @@ public class Modul {
         return this.art;
     }
 
+    public int getSws()
+    {
+        int sws = 0;
+
+        for(Veranstaltung veranstaltung : this.veranstaltungen)
+        {
+            sws += veranstaltung.getSws();
+        }
+
+        return sws;
+    }
+
     public Modul(List<String> dateiInhalt)
     {
         this.veranstaltungen = new ArrayList<>(dateiInhalt.size() - 1);
@@ -58,7 +70,7 @@ public class Modul {
 
         if(!this.bezeichnung.equals(modul.bezeichnung)) return false;
 
-        if(this.verantwortlicher.equals(modul.verantwortlicher)) return false;
+        if(!this.verantwortlicher.equals(modul.verantwortlicher)) return false;
 
         if(this.kuerzel.isEmpty() || modul.kuerzel.isEmpty()) return false;
 
