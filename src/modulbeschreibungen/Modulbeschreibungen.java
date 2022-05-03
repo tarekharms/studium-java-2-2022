@@ -174,6 +174,23 @@ public class Modulbeschreibungen {
         return ectsPunkteGerundet;
     }
 
+    public Map<Integer, Integer> getSWS(String studiengang)
+    {
+        Map<Integer, Integer> swsMap = new HashMap<>();
+        return swsMap;
+    }
+
+    public List<String> getSortierteStudiengaenge()
+    {
+        List<String> list = new ArrayList<>();
+        return list;
+    }
+
+    public String getJSON(String studiengang)
+    {
+        return "";
+    }
+
     public List<Modul> getModuleByStudiengang(String studiengang)
     {
         List<Modul> module = new ArrayList<>();
