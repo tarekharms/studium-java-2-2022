@@ -1,8 +1,5 @@
 package modulbeschreibungen;
 
-import vorlesungsverzeichnis.TextFileFormatException;
-import vorlesungsverzeichnis.Vorlesung;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -99,13 +96,13 @@ public class Modulbeschreibungen {
         }
     }
 
-    private static List<Modul> filterPflichtModule(List<Modul> module, Boolean pflicht)
+    private static List<Modul> filterPflichtModule(List<Modul> module, boolean pflicht)
     {
         List<Modul> pflichtModule = new ArrayList<>();
 
         for(Modul modul : module)
         {
-            if(modul.getArt().equals("Pflichtmodul") != !pflicht)
+            if(modul.getArt().equals("Pflichtmodul") == pflicht)
             {
                 pflichtModule.add(modul);
             }
